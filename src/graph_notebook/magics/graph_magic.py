@@ -720,6 +720,8 @@ class Graph(Magics):
         else:
             query_start = time.time() * 1000  # time.time() returns time in seconds w/high precision; x1000 to get in ms
             query_res = self.client.gremlin_query(cell, transport_args=transport_args)
+            logger.info(dict(query_res=query_res))
+            logger.debug(dict(query_res=query_res))
             query_time = time.time() * 1000 - query_start
             if not args.silent:
                 gremlin_metadata = build_gremlin_metadata_from_query(query_type='query', results=query_res,
@@ -741,7 +743,8 @@ class Graph(Magics):
                                         label_max_length=args.label_max_length,
                                         edge_label_max_length=args.edge_label_max_length,
                                         ignore_groups=args.ignore_groups)
-
+                    logger.info(dict(gn=gn))
+                    logger.debug(dict(gn=gn))
                     if args.path_pattern == '':
                         gn.add_results(query_res)
                     else:
